@@ -14,6 +14,7 @@ struct ContentView: View {
     @State var currentPage = 1
     @State var searchText = ""
     @State var currentUrl = ""
+    @State var index = 0
     
     var body: some View {
         
@@ -37,6 +38,7 @@ struct ContentView: View {
                                 let index = response.results.firstIndex(where: { $0.id == result.id})
                                                                     
                                     VStack {
+                                        NavigationLink(destination: CharacterDetailView(result: result)) {
                                         RowView(result: result, index: index!)
                                             .task {
                                                 if result == response.results.last
@@ -53,7 +55,8 @@ struct ContentView: View {
                                             Text("End of page")
                                                 .fontWeight(.semibold)
                                                 .padding()
-                                        }
+                                        } // MARK: - End of RowView
+                                    }
                                  }
                                 
                             }

@@ -9,10 +9,10 @@ import SwiftUI
 
 struct RowView: View {
     var result: Result
-    var index: Int
+    @State var index: Int
     
     var body: some View {
-        
+
         HStack(spacing: 24) {
            //
             Text("\(index + 1)")
