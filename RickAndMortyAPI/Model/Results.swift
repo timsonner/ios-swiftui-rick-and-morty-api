@@ -7,18 +7,11 @@
 
 import Foundation
 
-struct Origin: Decodable, Equatable {
-    let name: String
-}
-
-
-// MARK: - APIResponse
 struct APIResponse: Decodable {
     let info: Info
     let results: [Result]
 }
 
-// MARK: - Info
 struct Info: Decodable {
     let count: Int
     let pages: Int
@@ -26,7 +19,6 @@ struct Info: Decodable {
     let prev: String?
 }
 
-// MARK: - Result
 struct Result: Decodable, Identifiable, Equatable, Hashable {
     
     let id: Int
@@ -35,17 +27,31 @@ struct Result: Decodable, Identifiable, Equatable, Hashable {
     let species: String
     let type: String
     let gender: Gender
-    let origin, location: Location
+    let origin: Location
+    let location: Location
     let image: String
     let episode: [String]
     let url: String
     let created: String
 }
 
-// MARK: - Location
 struct Location: Decodable, Equatable, Hashable {
     let name: String
     let url: String
+}
+
+struct Origin: Decodable, Equatable {
+    let name: String
+}
+
+struct Episode: Decodable, Hashable {
+    let id: Int
+    let name: String
+    let airDate: String
+    let episode: String
+    let characters: [String]
+    let url: String
+    let created: String
 }
 
 enum Gender: String, Decodable, Hashable {
@@ -61,10 +67,4 @@ enum Status: String, Decodable, Hashable {
     case unknown = "unknown"
 }
 
-struct Episode: Decodable, Hashable {
-    let id: Int
-    let name, airDate, episode: String
-    let characters: [String]
-    let url: String
-    let created: String
-}
+

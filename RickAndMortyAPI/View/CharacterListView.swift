@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CharacterListView: View {
     
-    @StateObject private var viewModel = CharacterListViewModel(webService: WebService())
+    @StateObject private var characterVM = CharacterViewModel(webService: WebService())
     
     @State var currentPage = 1
     @State var searchText = ""
@@ -19,11 +19,11 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView {
-            switch viewModel.state {
-            case .success(let data):
+            switch characterVM.state {
+            case .successLoadingCharacters(let data):
                 VStack {
-                    Text("Number of characters: \(viewModel.getCharacterCount(currentCharacters: data))")
-                    Text("Number of pages: \(viewModel.getCharacterPageCount(currentCharacters: data))")
+                    Text("Number of characters: \(characterVM.getTotalNumberOfCharacters(currentCharacters: data))")
+                    Text("Number of pages: \(characterVM.getTotalNumberOfPages(currentCharacters: data))")
                     Text("Pages Loaded: \(currentPage)")
                     //                    Text(data.response.results.last)
                     List {
@@ -48,7 +48,7 @@ struct ContentView: View {
                                                 {
                                                     currentPage += 1
                                                     
-                                                    await viewModel.populateCharacters(url: response.nextURL)
+                                                    await characterVM.populateCharacters(url: response.nextURL)
                                                 }
                                             }
                                         if index == 19 {
@@ -58,7 +58,6 @@ struct ContentView: View {
                                         } // MARK: - End of RowView
                                     }
                                  }
-                                
                             }
                         }
                     }
@@ -85,31 +84,31 @@ struct ContentView: View {
         .onChange(of: searchText) { text in
             if !text.isEmpty {
                 searchText = text
-                            viewModel.currentCharacters.removeAll()
-                currentUrl = viewModel.rickAndMortyURL + searchText
+                            characterVM.currentCharacters.removeAll()
+                currentUrl = characterVM.rickAndMortyURL + searchText
                 Task {
                     await
-                    viewModel.populateCharacters(url: viewModel.rickAndMortyURL + searchText)
+                    characterVM.populateCharacters(url: characterVM.rickAndMortyURL + searchText)
                 }
             }
         }
         .refreshable {
             searchText = ""
             currentPage = 1
-            viewModel.currentCharacters.removeAll()
+            characterVM.currentCharacters.removeAll()
             await
-            viewModel.populateCharacters(url: viewModel.rickAndMortyURL)
+            characterVM.populateCharacters(url: characterVM.rickAndMortyURL)
         }
         .alert("Error",
-               isPresented: $viewModel.hasError,
-               presenting: viewModel.state) { errorDetails in
+               isPresented: $characterVM.hasError,
+               presenting: characterVM.state) { errorDetails in
             Button("Retry") {
                 Task {
-                    await viewModel.populateCharacters(url: currentUrl)
+                    await characterVM.populateCharacters(url: currentUrl)
                 }
             }
-        } message: { errorMessageDetail in
-            if case let .failed(error) = errorMessageDetail {
+        } message: { errorMessage in
+            if case let .failed(error) = errorMessage {
                 Text(" \(error.localizedDescription)")
             }
         } // MARK: - End of Error Alert
@@ -118,14 +117,15 @@ struct ContentView: View {
             // This is the first call made to the network service. The switch statement will remain in default case if this .task is ommitted.
             currentPage = 1
             await
-            viewModel.populateCharacters(url: viewModel.rickAndMortyURL)
+            characterVM.populateCharacters(url: characterVM.rickAndMortyURL)
         }
     }  // MARK: - End of body
 }  // MARK: - End of ContentView
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CharacterListView()
+            .preferredColorScheme(.dark)
     }
 }
 

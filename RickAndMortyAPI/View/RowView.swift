@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RowView: View {
+    
     var result: Result
+    
     @State var index: Int
     
     var body: some View {

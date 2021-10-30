@@ -1,6 +1,6 @@
 //
 //  DetailSideView.swift
-//  RickAndMortyAPI
+//  DetailSideView
 //
 //  Created by Timothy Sonner on 10/29/21.
 //
@@ -12,21 +12,19 @@ struct DetailSideView: View {
         let result: Result
         
         var body: some View {
-            VStack (alignment: .leading, spacing: 8.0) {
-                HStack (alignment: .top) {
-                    VStack (alignment: .leading, spacing: 8.0) {
-                        Text(result.species + result.type)
+            
+            VStack (alignment: .leading, spacing: 6) {
+                        Text("Species: " + result.species + result.type)
                         Text("Gender: \(result.gender.rawValue)")
                         Text("Status: \(result.status.rawValue)")
                         Text("ID: \(result.id)")
                     }
                     .font(.callout)
                     .foregroundColor(.secondary)
-                    .padding()
+//                    .padding()
                     Spacer()
 
-                    }
-                }
+                   
                 
             }
     

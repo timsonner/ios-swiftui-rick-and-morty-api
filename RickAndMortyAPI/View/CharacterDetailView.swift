@@ -12,15 +12,14 @@ struct CharacterDetailView: View {
     var result: Result
     var body: some View {
         VStack {
-        HStack {
+            HStack(spacing: 24) {
             AsyncImageView(image: result.image)
             DetailSideView(result: result)
         }
         DetailBottomView(result: result)
             Spacer()
     }
-        .padding(.top, 18)
-                .padding(.horizontal, 20)
+        .padding()
                 .navigationBarTitle(result.name)
     }
 }

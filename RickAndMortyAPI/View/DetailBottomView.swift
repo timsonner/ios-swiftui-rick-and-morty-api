@@ -1,6 +1,6 @@
 //
 //  DetailBottomView.swift
-//  RickAndMortyAPI
+//  DetailBottomView
 //
 //  Created by Timothy Sonner on 10/29/21.
 //
@@ -9,37 +9,33 @@ import SwiftUI
 
 struct DetailBottomView: View {
     var result: Result
-
+    
     var body: some View {
-        VStack (alignment: .leading, spacing: 16.0) {
-            VStack(alignment: .leading) {
-                Text("Last known location:")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                Text(result.location.name)
-                    .font(.headline)
-            }
-            VStack(alignment: .leading) {
-                Text("First seen in:")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                Text("\(result.episode[0])")
-                    .font(.headline)
-            }
+        VStack (alignment: .leading, spacing: 8) {
+            Text("Last known location:")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Text(result.location.name)
+                .font(.headline)
+            Text("First seen in:")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Text("\(result.episode[0])")
+                .font(.headline)
             
             Divider()
             VStack {
-            Text("Appears in episodes:")
-                .font(.title3)
+                Text("Appears in episodes:")
+                    .font(.title3)
                 List {
-                ForEach(result.episode, id: \.self) {
-                    episode in
-                     Link(destination: URL(string: episode)!, label: {
-                        Text(episode)
+                    ForEach(result.episode, id: \.self) {
+                        episode in
+                        Link(destination: URL(string: episode)!, label: {
+                            Text(episode)
+                        }
+                        )
+                        
                     }
-                                                     )
-                                   
-                }
                 }
                 
             }

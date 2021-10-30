@@ -1,6 +1,6 @@
 //
 //  WebService.swift
-//  RickAndMortyAPI
+//  WebService
 //
 //  Created by Timothy Sonner on 9/29/21.
 //
@@ -16,22 +16,9 @@ struct WebService: Decodable {
     }
     
     // New way of making a network request (ios15+):
-    func NetworkRequest(url: String) async throws -> APIResponse? {
+    func fetchCharacters(url: String) async throws -> APIResponse? {
         // async marks function as asyncronous, throws marks it as able to throw errors
-//        var components: URLComponents
-//        // Build a URL from URLComponents, allows for more flexibility than a static URL.
-//
-//            components = URLComponents()
-//            components.scheme = "https"
-//            components.host = "rickandmortyapi.com"
-//            components.path = "/api/character"
-//            components.queryItems = [
-//                URLQueryItem(name: "page", value: page),
-//                URLQueryItem(name: "name", value: name)
-//            ]
-//
-       
-        
+ 
         let (data, response) = try await URLSession.shared.data(from: URL(string: url)!)
         // tries to create a URLSession from the URL object
         
@@ -44,6 +31,23 @@ struct WebService: Decodable {
         // decode the data from URL session
         return (decodedData.self)
     }
+    
+    func fetchEpisode(url: String) async throws -> Episode? {
+        // async marks function as asyncronous, throws marks it as able to throw errors
+ 
+        let (data, response) = try await URLSession.shared.data(from: URL(string: url)!)
+        // tries to create a URLSession from the URL object
+        
+        guard let networkRequestResponse = response as? HTTPURLResponse,
+              networkRequestResponse.statusCode == 200 else {
+                  throw WebServiceError.invalidStatusCode
+              }  // checks if a HTTPURLResponse object can be created and if its status code is 200
+        
+        let decodedData = try JSONDecoder().decode(Episode.self, from: data)
+        // decode the data from URL session
+        return (decodedData.self)
+    }
+    
 }
 
 
