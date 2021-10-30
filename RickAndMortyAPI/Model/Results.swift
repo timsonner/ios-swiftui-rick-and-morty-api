@@ -13,13 +13,13 @@ struct Origin: Decodable, Equatable {
 
 
 // MARK: - APIResponse
-struct APIResponse: Codable {
+struct APIResponse: Decodable {
     let info: Info
     let results: [Result]
 }
 
 // MARK: - Info
-struct Info: Codable {
+struct Info: Decodable {
     let count: Int
     let pages: Int
     let next: String?
@@ -27,7 +27,7 @@ struct Info: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable, Identifiable, Equatable, Hashable {
+struct Result: Decodable, Identifiable, Equatable, Hashable {
     
     let id: Int
     let name: String
@@ -43,21 +43,28 @@ struct Result: Codable, Identifiable, Equatable, Hashable {
 }
 
 // MARK: - Location
-struct Location: Codable, Equatable, Hashable {
+struct Location: Decodable, Equatable, Hashable {
     let name: String
     let url: String
 }
 
-enum Gender: String, Codable, Hashable {
+enum Gender: String, Decodable, Hashable {
     case female = "Female"
     case male = "Male"
     case genderless = "Genderless"
     case unknown = "unknown"
 }
 
-enum Status: String, Codable, Hashable {
+enum Status: String, Decodable, Hashable {
     case alive = "Alive"
     case dead = "Dead"
     case unknown = "unknown"
 }
 
+struct Episode: Decodable, Hashable {
+    let id: Int
+    let name, airDate, episode: String
+    let characters: [String]
+    let url: String
+    let created: String
+}
