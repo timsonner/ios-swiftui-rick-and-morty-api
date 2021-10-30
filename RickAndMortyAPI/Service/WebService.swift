@@ -32,7 +32,7 @@ struct WebService: Decodable {
         return (decodedData.self)
     }
     
-    func fetchEpisode(url: String) async throws -> Episode? {
+    func fetchEpisodes(url: String) async throws -> Episode? {
         // async marks function as asyncronous, throws marks it as able to throw errors
  
         let (data, response) = try await URLSession.shared.data(from: URL(string: url)!)

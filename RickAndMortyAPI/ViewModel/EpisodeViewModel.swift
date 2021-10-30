@@ -30,9 +30,9 @@ class EpisodeViewModel: ObservableObject {
     
     func populateEpisodes(url: String) async {
         do {
-            let currentEpisode = try await webService.fetchEpisode(url: url) // fetch data from API
+            let currentEpisode = try await webService.fetchEpisodes(url: url) // fetch data from API
             if let episode = currentEpisode {
-                let currentEpisodeViewModel = CurrentEpisodeViewModel(id: episode.id, name: episode.name, airDate: episode.airDate, episode: episode.episode) // create instance of view model with data injected
+                let currentEpisodeViewModel = CurrentEpisodeViewModel(id: episode.id, name: episode.name) // create instance of view model with data injected
                 self.currentEpisodes.append(currentEpisodeViewModel) // update the array of view model objects
                 self.state = .successLoadingEpisodes(data: currentEpisodes)
             }
@@ -41,13 +41,14 @@ class EpisodeViewModel: ObservableObject {
             self.hasError = true
         }
     }
-    
     struct CurrentEpisodeViewModel: Identifiable {
         
         let id: Int
         let name: String
-        let airDate: String
-        let episode: String
+        
+        
+//        let airDate: String
+//        let episode: String
         //        let id: Int
         //        let name, airDate, episode: String
         //        let characters: [String]

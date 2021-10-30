@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
-//  RickAndMortyAPI
+//  ListView.swift
+//  ListView
 //
 //  Created by Timothy Sonner on 9/29/21.
 //
 
 import SwiftUI
 
-struct CharacterListView: View {
+struct ListView: View {
     
     @StateObject private var characterVM = CharacterViewModel(webService: WebService())
     
@@ -38,7 +38,7 @@ struct CharacterListView: View {
                                 let index = response.results.firstIndex(where: { $0.id == result.id})
                                                                     
                                     VStack {
-                                        NavigationLink(destination: CharacterDetailView(result: result)) {
+                                        NavigationLink(destination: DetailView(result: result)) {
                                         RowView(result: result, index: index!)
                                             .task {
                                                 if result == response.results.last
@@ -124,7 +124,7 @@ struct CharacterListView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterListView()
+        ListView()
             .preferredColorScheme(.dark)
     }
 }
