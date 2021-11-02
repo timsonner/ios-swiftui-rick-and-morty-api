@@ -23,7 +23,8 @@ struct Info: Decodable {
 
 struct Result: Decodable, Identifiable, Equatable, Hashable {
     
-    let id: Int
+    let id = UUID()
+    let characterID: Int
     let name: String
     let status: Status
     let species: String
@@ -35,6 +36,11 @@ struct Result: Decodable, Identifiable, Equatable, Hashable {
     let episode: [String]
     let url: String
     let created: String
+    
+    enum CodingKeys: String, CodingKey {
+    case characterID = "id"
+        case name, status, species, type, gender, origin, location, image, episode, url, created
+    }
 }
 
 struct Location: Decodable, Equatable, Hashable {
@@ -49,15 +55,19 @@ struct Origin: Decodable, Equatable {
 struct Episode: Decodable, Hashable, Identifiable {
     let id: Int
     let name: String
-//    let airDate: String
+    let airDate: String
     let episode: String
     let characters: [String]
     let url: String
     let created: String
-}
-enum CodingKeys: String, CodingKey {
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name
         case airDate = "air_date"
-    }
+        case episode, characters, url, created
+    } // this coding key enum has to be exhaustive, like all cases accounted for in order for Episode struct to conform to decodable.
+}
+
 
 enum Gender: String, Decodable, Hashable {
     case female = "Female"

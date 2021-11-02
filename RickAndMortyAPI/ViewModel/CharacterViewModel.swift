@@ -5,7 +5,7 @@
 //  Created by Timothy Sonner on 9/30/21.
 //
 
-import Foundation
+import SwiftUI
 
 @MainActor
 class CharacterViewModel: ObservableObject {
@@ -20,7 +20,7 @@ class CharacterViewModel: ObservableObject {
     @Published private(set) var state: State = .initialState
     // set means changes to this var can only be made from within scope of this class. views can't directly change this var, only reflect its change
     @Published var hasError: Bool = false
-    @Published var currentCharacters: [CurrentCharacterViewModel] = []
+    @Published var currentCharacters: [CurrentCharacterViewModel] = []    
     @Published var searchText = ""
     @Published var rickAndMortyURL = "https://rickandmortyapi.com/api/character/?page=1&name="
     
@@ -52,6 +52,7 @@ class CharacterViewModel: ObservableObject {
             if let character = currentCharacter {
                 let currentCharacterViewModel = CurrentCharacterViewModel(id: UUID(), info: character.info, results: character.results) // create instance of view model with data injected
                 self.currentCharacters.append(currentCharacterViewModel) // update the array of view model objects
+                
                 self.state = .successLoadingCharacters(data: currentCharacters)
             }
         } catch {
@@ -73,8 +74,11 @@ class CharacterViewModel: ObservableObject {
         var characterCount: Int {
             info.count
         }
-        var nextURL: String {
-            info.next!
+        var nextURL: String? {
+            info.next // !
+        }
+        var previousURL: String? {
+            info.prev
         }
     }
 }

@@ -32,7 +32,7 @@ class EpisodeViewModel: ObservableObject {
         do {
             let currentEpisode = try await webService.fetchEpisodes(url: url) // fetch data from API
             if let episode = currentEpisode {
-                let currentEpisodeViewModel = CurrentEpisodeViewModel(id: episode.id, name: episode.name) // create instance of view model with data injected
+                let currentEpisodeViewModel = CurrentEpisodeViewModel(name: episode.name) // create instance of view model with data injected
                 self.currentEpisodes.append(currentEpisodeViewModel) // update the array of view model objects
                 self.state = .successLoadingEpisodes(data: currentEpisodes)
             }
@@ -43,7 +43,7 @@ class EpisodeViewModel: ObservableObject {
     }
     struct CurrentEpisodeViewModel: Identifiable {
         
-        let id: Int
+        let id = UUID()
         let name: String
         
         
@@ -56,6 +56,7 @@ class EpisodeViewModel: ObservableObject {
         //        let created: String
         //
     }
+    
     
 }
     

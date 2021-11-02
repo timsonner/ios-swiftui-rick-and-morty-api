@@ -9,15 +9,13 @@ import SwiftUI
 
 struct RowView: View {
     
+    @StateObject private var characterVM = CharacterViewModel(webService: WebService())
+    
     var result: Result
     
-    @State var index: Int
-    
     var body: some View {
-
         HStack(spacing: 24) {
-           //
-            Text("\(index + 1)")
+      
             AsyncImageView(image: result.image)
             
             VStack(alignment: .leading, spacing: 4) {
@@ -35,7 +33,6 @@ struct RowView: View {
                 }
                 .font(.caption)
                 .foregroundColor(.secondary)
-                
             }
         }
     }
